@@ -10,10 +10,31 @@ class YTStats:
         self.channel_id = channel_id
         self.channel_statistics = None
         self.video_data = None
+        self.subscriptions = None
 
     def extract_all(self):
         self.get_channel_statistics()
         self.get_channel_video_data()
+
+
+    # Get your channel's subscriptions
+    def get_my_subscriptions(self):
+        print('get channel subscriptions...')
+        url = f'https://youtube.googleapis.com/youtube/v3/subscriptions?channelId={self.channel_id}&mine=true&key={self.api_key}'
+        pbar = tqdm(total=1)
+        
+        json_url = requests.get(url)
+        data = json.loads(json_url.text)
+        try:
+            data = data
+        except KeyError:
+            print('Could not get channel subscriptions')
+            data = {}
+
+        self.subscriptions = data
+        pbar.update()
+        pbar.close()
+        return data
 
     def get_channel_statistics(self):
         """Extract the channel statistics"""
