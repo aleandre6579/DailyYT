@@ -2,7 +2,6 @@ from flask import Flask, request
 from pyyoutube import Api
 from pyyoutube import Client
 from traceback import print_exc
-from authorizer import Authorizer
 
 app = Flask(__name__)
 
