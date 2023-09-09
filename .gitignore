@@ -1,4 +1,7 @@
 client_secret.json
 token.txt
 app.py
+
 __pycache__/**
+node_modules/**
+
