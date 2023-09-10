@@ -5,8 +5,9 @@ from tqdm import tqdm
 
 class YTStats:
 
-    def __init__(self, api_key, channel_id):
+    def __init__(self, api_key, access_token, channel_id):
         self.api_key = api_key
+        self.access_token = access_token
         self.channel_id = channel_id
         self.channel_statistics = None
         self.video_data = None
@@ -20,7 +21,7 @@ class YTStats:
     # Get your channel's subscriptions
     def get_my_subscriptions(self):
         print('get channel subscriptions...')
-        url = f'https://youtube.googleapis.com/youtube/v3/subscriptions?channelId={self.channel_id}&mine=true&key={self.api_key}'
+        url = f'https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&access_token={self.access_token}'
         pbar = tqdm(total=1)
         
         json_url = requests.get(url)
