@@ -21,7 +21,7 @@ class YTStats:
     # Get your channel's subscriptions
     def get_my_subscriptions(self):
         print('get channel subscriptions...')
-        url = f'https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&mine=true&access_token={self.access_token}'
+        url = f'https://youtube.googleapis.com/youtube/v3/subscriptions?mine=true&key={self.api_key}&access_token={self.access_token}'
         pbar = tqdm(total=1)
         
         json_url = requests.get(url)
