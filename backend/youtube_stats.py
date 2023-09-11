@@ -12,6 +12,7 @@ class YTStats:
         self.channel_statistics = None
         self.video_data = None
         self.subscriptions = None
+        self.activities = None
 
     def extract_all(self):
         self.get_channel_statistics()
@@ -36,6 +37,26 @@ class YTStats:
         pbar.update()
         pbar.close()
         return data
+    
+        # Get a channel's activities
+    def get_channel_activities(self, channelId, maxResult):
+        print('get channel activities...')
+        url = f'https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId={channelId}&maxResults={maxResult}&key={self.api_key}'
+        pbar = tqdm(total=1)
+        
+        json_url = requests.get(url)
+        data = json.loads(json_url.text)
+        try:
+            data = data
+        except KeyError:
+            print('Could not get channel activities')
+            data = {}
+
+        self.activities = data
+        pbar.update()
+        pbar.close()
+        return data 
+
 
     def get_channel_statistics(self):
         """Extract the channel statistics"""

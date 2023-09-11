@@ -5,3 +5,5 @@ app.py
 __pycache__/**
 node_modules/**
 
+**.json
+**.pyc
