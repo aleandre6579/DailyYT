@@ -22,8 +22,8 @@ class Authorizer:
             self.api = Api(api_key=API_KEY, access_token=self.token)
             self.api.get_subscription_by_me(mine=True, count=1)
         except:
-            self.token = self.url_auth()
-            self.writeToFile(TOKEN_FILE, self.token.access_token)
+            self.token = self.url_auth().access_token
+            self.writeToFile(TOKEN_FILE, self.token)
 
     def url_auth(self):
         webbrowser.open_new_tab(self.client.get_authorize_url()[0])
