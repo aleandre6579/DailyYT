@@ -22,3 +22,29 @@ def read_acts():
         else:
             video_ids.append(val['contentDetails']['playlistItem']['resourceId']['videoId'])
     return video_ids
+
+def read_act_dates():
+    video_dates = []
+    with open('acts.json', 'r') as openfile:
+        acts_json = json.load(openfile)
+    for val in acts_json["items"]:        
+        video_dates.append(val['snippet']['publishedAt'])
+    return video_dates
+
+def read_act_dates():
+    video_dates = []
+    with open('acts.json', 'r') as openfile:
+        acts_json = json.load(openfile)
+    for val in acts_json["items"]:        
+        video_dates.append(val['snippet']['publishedAt'])
+    return video_dates
+
+def read_video_category_id():
+    with open('video_info.json', 'r') as openfile:
+        video_json = json.load(openfile)
+    return video_json["items"]["snippet"]["categoryId"]
+
+def read_category_title():
+    with open('category_info.json', 'r') as openfile:
+        category_json = json.load(openfile)
+    return category_json["items"]["snippet"]["title"]
