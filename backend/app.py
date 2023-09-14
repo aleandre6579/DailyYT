@@ -22,6 +22,8 @@ videos = db.videos
 # Constants
 TOKEN_FILE = "token.json"
 RECENT_IN_DAYS = 2
+VIDEOS_PER_SUB = 2
+SUBS_AMOUNT = 10
 
 authorizer = Authorizer(TOKEN_FILE, my_secrets.API_KEY, my_secrets.CLIENT_ID, my_secrets.CLIENT_SECRET)
 ACCESS_TOKEN = authorizer.token
@@ -30,9 +32,6 @@ yt = YTStats(my_secrets.API_KEY, ACCESS_TOKEN)
 
 ## FLASK FUNCTIONS ##
 
-#myquery = { "videoId": "videoUrl" }
-#videos.delete_one(myquery)
-
 @app.get('/videos')
 def send_videos():
     all_videos = get_all_db_videos()
@@ -40,15 +39,18 @@ def send_videos():
         return "No videos"
     for video_document in all_videos:
         del video_document['_id']
-    print(all_videos)
     return all_videos
 
 @app.get('/refresh')
 def refresh_videos():
     new_videos = get_newest_videos()
-    for new_video in new_videos:
-        store_video(new_video)
     return new_videos
+
+
+def get_subscriptions():
+    my_subs = yt.get_my_subscriptions()
+    writeJSONToFile("subs.json", my_subs)
+get_subscriptions()
 
 def get_all_db_videos():
     return list(videos.find({}))
@@ -61,7 +63,7 @@ def get_newest_videos():
     subs_id = read_subs()
     all_videos_final = []
     for id in subs_id:
-        acts = yt.get_channel_activities(id, 3)
+        acts = yt.get_channel_activities(id, VIDEOS_PER_SUB)
         writeJSONToFile("acts.json", acts)
         video_ids = read_acts()
         i = 0
@@ -70,6 +72,15 @@ def get_newest_videos():
                 del video_ids[i]
                 i -= 1
             i += 1
+
+        # Remove duplicates from youtube API and database
+        videos_in_db = get_all_db_videos()
+        video_ids = list(set(video_ids))
+        for video_id in video_ids:
+            for db_video in videos_in_db:
+                if video_id == db_video['videoId']:
+                    video_ids.remove(video_id)
+                    break
 
         category_titles = []
         video_titles = []
@@ -85,7 +96,11 @@ def get_newest_videos():
             video_titles.append(video_title)
             video_thumbnails.append(video_thumbnail)
 
-        all_videos_final += list(zip(video_ids, video_titles, category_titles, video_thumbnails))
+        new_videos = list(zip(video_ids, video_titles, category_titles, video_thumbnails))
+        for new_video in new_videos:
+            store_video(new_video)
+        all_videos_final += new_videos
+
     return all_videos_final
 
 

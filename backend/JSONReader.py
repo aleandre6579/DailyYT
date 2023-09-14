@@ -19,7 +19,7 @@ def read_acts():
         # Can be either upload or playlistItem
         if 'upload' in val['contentDetails']:
             video_ids.append(val['contentDetails']['upload']['videoId'])
-        else:
+        elif 'playlistItem' in val['contentDetails']:
             video_ids.append(val['contentDetails']['playlistItem']['resourceId']['videoId'])
     return video_ids
 
@@ -27,16 +27,9 @@ def read_act_dates():
     video_dates = []
     with open('acts.json', 'r') as openfile:
         acts_json = json.load(openfile)
-    for val in acts_json["items"]:        
-        video_dates.append(val['snippet']['publishedAt'])
-    return video_dates
-
-def read_act_dates():
-    video_dates = []
-    with open('acts.json', 'r') as openfile:
-        acts_json = json.load(openfile)
-    for val in acts_json["items"]:        
-        video_dates.append(val['snippet']['publishedAt'])
+    for val in acts_json["items"]:
+        if 'upload' in val['contentDetails'] or 'playlistItem' in val['contentDetails']:
+            video_dates.append(val['snippet']['publishedAt'])
     return video_dates
 
 def read_video_category_id():

@@ -7,7 +7,6 @@ def writeJSONToFile(filename, dict):
     with open(filename, "w") as outfile:
         json.dump(dict, outfile)
 
-
 def videoIsRecent(ISODate, daysFromToday):
     date = ISODate[:10]
     now_date = datelib.today().strftime("%Y/%m/%d")
