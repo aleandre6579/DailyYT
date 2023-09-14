@@ -7,25 +7,18 @@
   
   <script defer src="main.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
 <body class="bg-dark text-white">
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
-
-  <!-- <h1 x-data="{ message: 'I ❤️ Alpine' }" x-text="message"></h1>
-
-  <div x-data="{ count: 0 }">
-    <button type="button" class="btn btn-secondary" x-on:click="count++">Increment</button>
-     
-    <span x-text="count"></span>
-  </div> -->
-
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+ 
   <div class="btn-group btn-group-justified" x-data="{
     categories: [
+      'All',
       'Film & Animation',
       'Autos & Vehicles',
       'Music',
@@ -47,7 +40,6 @@
       'Anime/Animation',
       'Action/Adventure',
       'Classics',
-      'Comedy',
       'Documentary',
       'Drama',
       'Family',
@@ -59,22 +51,27 @@
       'Shows',
       'Trailers'
     ],
-
   }">
 
-    <ul>
+    <ul class="d-flex p-2 justify-content-center align-items-start flex-wrap m-3">
       <template x-for="category in categories">
-        <li href="#" class="btn btn-primary" x-text="category"></li>
+        <div class="align-self-center">
+            <button type="button" href="#" x-on:click="$store.activeCategory = category" class="btn btn-secondary m-2" :class="category === $store.activeCategory ? 'active' : ''" x-text="category"></button>
+        </div>
       </template>
     </ul>
   
   </div>
 
   <div>
-    <button type="button" class="btn btn-primary" id="get_videos">Get videos</button>
+    <button type="button" class="btn btn-primary btn-sm" id="get_videos">Get videos</button>
   </div>
 
-  <p id="output">
+  <div>
+    <button type="button" class="btn btn-primary btn-sm" id="refresh">Refresh</button>
+  </div>
+
+  <p id="output_videos">
     OUTPUT
   </p>
 
