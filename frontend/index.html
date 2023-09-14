@@ -72,8 +72,19 @@
   </div>
 
   <p id="output_videos">
+    <p class=""></p>
     OUTPUT
   </p>
+
+  <div x-init="videos = Alpine.store('videos', [])">
+    <template x-for="video in $store.videos">
+      <div x-text="video['videoTitle']">
+
+      </div>
+    </template>
+
+  </div>
+
 
 </body>
 

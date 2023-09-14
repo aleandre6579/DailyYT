@@ -38,6 +38,8 @@ def send_videos():
     all_videos = get_all_db_videos()
     if all_videos == []:
         return "No videos"
+    for video_document in all_videos:
+        del video_document['_id']
     print(all_videos)
     return all_videos
 
