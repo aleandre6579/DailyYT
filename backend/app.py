@@ -46,6 +46,12 @@ def refresh_videos():
     new_videos = get_newest_videos()
     return new_videos
 
+@app.get('/delete_one')
+def delete_video():
+    videoId = request.args.get('videoId')
+    print(videoId)
+    videos.delete_one({'videoId': videoId})
+    return videoId
 
 def get_subscriptions():
     my_subs = yt.get_my_subscriptions_ids()
