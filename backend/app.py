@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 from pymongo import MongoClient
+from tqdm import tqdm
 from pyyoutube import Api
 from pyyoutube import Client
 from traceback import print_exc
@@ -56,10 +57,14 @@ def get_all_db_videos():
 def store_video(video):
     videos.insert_one({'videoId': video[0], 'videoTitle': video[1], 'category': video[2], 'thumbnailUrl': video[3]})
 
+def clear_database():
+    videos.delete_many({})
 
 def get_newest_videos():
+    clear_database()
     subs_id = get_subscriptions()
     all_videos_final = []
+    pbar = tqdm(total=len(subs_id))
     for id in subs_id:
         acts = yt.get_channel_activities(id, VIDEOS_PER_SUB)
         writeJSONToFile("acts.json", acts)
@@ -98,7 +103,8 @@ def get_newest_videos():
         for new_video in new_videos:
             store_video(new_video)
         all_videos_final += new_videos
-
+        pbar.update()
+    pbar.close()
     return all_videos_final
 
 

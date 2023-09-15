@@ -1,6 +1,5 @@
 import json
 import requests
-from tqdm import tqdm
 
 
 class YTStats:
@@ -14,21 +13,17 @@ class YTStats:
         self.activities = None
 
     def get_request_data(self, url):
-        pbar = tqdm(total=1)
         json_url = requests.get(url)
         data = json.loads(json_url.text)
         try:
             data = data
         except KeyError:
-            print('Could not get channel activities')
             data = {}
-        pbar.update()
-        pbar.close()
         return data
 
     # Get your channel's subscriptions
     def get_my_subscriptions_ids(self):
-        print('get channel subscriptions...')
+        
         next_page_token = None
         url = f'https://youtube.googleapis.com/youtube/v3/subscriptions?part=snippet&maxResults=50&mine=true&key={self.api_key}&access_token={self.access_token}'
         self.subscriptions_ids = []
@@ -55,7 +50,7 @@ class YTStats:
     
     # Get a channel's activities
     def get_channel_activities(self, channelId, maxResult):
-        print('get channel activities...')
+        
         url = f'https://www.googleapis.com/youtube/v3/activities?part=snippet,contentDetails&channelId={channelId}&maxResults={maxResult}&key={self.api_key}'
         data = self.get_request_data(url)
         self.activities = data
@@ -64,7 +59,7 @@ class YTStats:
 
     # Get a categorie's title
     def get_category_title(self, categoryId):
-        print('get category title...')
+        
         url = f'https://www.googleapis.com/youtube/v3/videoCategories?part=snippet&id={categoryId}&key={self.api_key}'
         data = self.get_request_data(url)
         self.activities = data
@@ -72,7 +67,7 @@ class YTStats:
     
     # Get a video's info
     def get_video_info(self, videoId):
-        print('get video info...')
+        
         url = f'https://www.googleapis.com/youtube/v3/videos?part=snippet&id={videoId}&key={self.api_key}'
         data = self.get_request_data(url)
         self.activities = data
