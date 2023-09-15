@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.card-thumbnail {
+    display: flex;
+    justify-content: center;
+}
+
+.card-thumbnail > img {
+    object-fit: cover;
+    width: 100%;
+}
