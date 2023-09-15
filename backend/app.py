@@ -23,7 +23,6 @@ videos = db.videos
 TOKEN_FILE = "token.json"
 RECENT_IN_DAYS = 2
 VIDEOS_PER_SUB = 2
-SUBS_AMOUNT = 10
 
 authorizer = Authorizer(TOKEN_FILE, my_secrets.API_KEY, my_secrets.CLIENT_ID, my_secrets.CLIENT_SECRET)
 ACCESS_TOKEN = authorizer.token
@@ -48,9 +47,8 @@ def refresh_videos():
 
 
 def get_subscriptions():
-    my_subs = yt.get_my_subscriptions()
-    writeJSONToFile("subs.json", my_subs)
-get_subscriptions()
+    my_subs = yt.get_my_subscriptions_ids()
+    return my_subs
 
 def get_all_db_videos():
     return list(videos.find({}))
@@ -60,7 +58,7 @@ def store_video(video):
 
 
 def get_newest_videos():
-    subs_id = read_subs()
+    subs_id = get_subscriptions()
     all_videos_final = []
     for id in subs_id:
         acts = yt.get_channel_activities(id, VIDEOS_PER_SUB)
