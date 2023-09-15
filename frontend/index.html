@@ -76,10 +76,11 @@
     OUTPUT
   </p>
 
-  <div x-init="videos = Alpine.store('videos', [])">
+  <div x-data="{uri: 'https://www.youtube.com/watch?v='}" x-init="videos = Alpine.store('videos', [])">
     <template x-for="video in $store.videos">
-      <div x-text="video['videoTitle']">
-
+      <div>
+        <a :href="uri + video['videoId']"><img :src="video['thumbnailUrl']"></img></a>
+        <p x-text="video['videoTitle']"></p>
       </div>
     </template>
 
